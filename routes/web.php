@@ -20,15 +20,14 @@ Route::get('/', function () {
 });
 
 
+Route::resource('/tarea', TareasController::class);
+
+/*
 Route::get('/tareas', [TareasController::class, 'index']);
 
 Route::get('/tareas/create', [TareasController::class, 'create']);
 
-Route::post('/tareas/strore', function () {
-    //Validación y Limpieza de datos
-    //Guardar a DB
-    //Redireccionar a la una página
-});
+Route::post('/tareas/strore', [TareasController::class, 'store']);*/
 
 Route::get('/hola-mundo/{name?}', function($name=null){
     return view('paginas.hola-mundo', compact('name'));

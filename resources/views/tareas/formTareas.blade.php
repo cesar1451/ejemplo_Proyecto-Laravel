@@ -8,7 +8,8 @@
 </head>
 <body>
     <h1>Agregar Tarea</h1>
-    <form action="tareas/store" method="post">
+    <form action="{{ route('tarea.store')}}" method="POST">
+        @csrf <!-- Seguridad Token -->        
         <label for="tarea"> Nombre: </label>
         <input type="text" name="tarea">
         <br>
@@ -20,6 +21,7 @@
             <option value="Escuela">Escuela</option>
             <option value="Trabajo">Trabajo</option>            
         </select>
+        <input type="submit" value="Enviar">
     </form>
 </body>
 </html>
