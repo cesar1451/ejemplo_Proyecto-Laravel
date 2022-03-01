@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class TareasController extends Controller
 {
+    //Arreglo de reglas validaciones
+    private $reglasValidacion = [
+        'tarea'=>'required|min:5|max:255',
+        'descripcion'=>['required', 'min:5'],
+        'categoria'=>'required'
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -38,11 +44,7 @@ class TareasController extends Controller
     public function store(Request $request)
     {
         //Validaciones
-        $request->validate([
-            'tarea'=>'required|min:5|max:255',
-            'descripcion'=>['required', 'min:5'],
-            'categoria'=>'required'
-        ]);
+        $request->validate($this->reglasValidacion);
         
         $tarea = new Tarea();        
         $tarea->tarea = $request->tarea;
@@ -64,6 +66,7 @@ class TareasController extends Controller
     public function show(Tarea $tarea)
     {
         //
+        return view('tareas.showTarea', compact('tarea'));
     }
 
     /**
@@ -75,6 +78,7 @@ class TareasController extends Controller
     public function edit(Tarea $tarea)
     {
         //
+        return view('tareas.formTareas', compact('tarea'));
     }
 
     /**
@@ -87,6 +91,15 @@ class TareasController extends Controller
     public function update(Request $request, Tarea $tarea)
     {
         //
+        $request->validate($this->reglasValidacion);
+
+        $tarea->tarea = $request->tarea;
+        $tarea->descripcion = $request->descripcion;
+        $tarea->categoria = $request->categoria;        
+        $tarea->updated_at = now();
+        $tarea->save();
+
+        return redirect('/tarea/'. $tarea->id);
     }
 
     /**
@@ -98,5 +111,7 @@ class TareasController extends Controller
     public function destroy(Tarea $tarea)
     {
         //
+        $tarea->delete();
+        return redirect('/tarea');
     }
 }
